@@ -56,4 +56,4 @@ UserSchema.methods.toAuthJSON = function() {
 };
 
 //为了使用schema定义，我们需要转换为model
-mongose.model('User', UserStructure);
+mongoose.model('User', UserSchema);

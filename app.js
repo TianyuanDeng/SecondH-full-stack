@@ -32,11 +32,12 @@ if (!isProduction) {
 if(isProduction){
   mongoose.connect(process.env.MONGODB_URI);
 } else {
-  mongoose.connect('mongodb://localhost/test');
+  mongoose.connect("mongodb://localhost:27017/test", { useNewUrlParser: true });
   mongoose.set('debug', true);
 }
 
 require('./models/User');
+require('./config/passport');
 app.use(require('./routes'));
 
 /// catch 404 and forward to error handler
