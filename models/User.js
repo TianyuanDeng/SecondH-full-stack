@@ -31,7 +31,7 @@ UserSchema.methods.validPassword = function(password) {
 /*-------------------Favorite----------------------*/
 UserSchema.methods.favorite = function(id){
   if(this.favorites.indexOf(id) === -1){
-    this.favorites.concat(id);
+    this.favorites = this.favorite.concat(id);
   }
 
   return this.save();
