@@ -1,5 +1,6 @@
 var router = require('express').Router();
 
+router.use('/profiles', require('./profiles'));
 router.use('/', require('./users'));
 
 //middleware function for router to handle validation errors from Mognoose

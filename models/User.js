@@ -51,5 +51,15 @@ UserSchema.methods.toAuthJSON = function() {
     };
 };
 
+/*-------Return User Public Profile Data-------*/
+UserSchema.methods.toProfileJSONFor = function(user){
+  return {
+    username: this.username,
+    bio: this.bio,
+    image: this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
+    following: false
+  };
+};
+
 //为了使用schema定义，我们需要转换为model
 mongoose.model('User', UserSchema);
