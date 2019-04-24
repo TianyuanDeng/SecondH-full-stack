@@ -38,6 +38,7 @@ if(isProduction){
 
 require('./models/User');
 require('./config/passport');
+require('./models/Article');
 app.use(require('./routes'));
 
 /// catch 404 and forward to error handler

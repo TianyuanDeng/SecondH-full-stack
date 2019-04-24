@@ -10,6 +10,7 @@ var UserSchema = new mongoose.Schema({
     email:  {type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true},
     bio: String,
     image: String,
+    favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Article' }],
     hash: String,
     salt: String
 }, {timestamps: true});
@@ -25,6 +26,28 @@ UserSchema.methods.setPassword = function(password){
 UserSchema.methods.validPassword = function(password) {
     var hash = crypto.pbkdf2Sync(password, this.salt, 10000, 512, 'sha512').toString('hex');
     return this.hash === hash;
+};
+
+/*-------------------Favorite----------------------*/
+UserSchema.methods.favorite = function(id){
+  if(this.favorites.indexOf(id) === -1){
+    this.favorites.concat(id);
+  }
+
+  return this.save();
+};
+
+//Unfavorite
+UserSchema.methods.unfavorite = function(id){
+  this.favorites.remove( id );
+  return this.save();
+};
+
+//Check favorited or not
+UserSchema.methods.isFavorite = function(id){
+  return this.favorites.some(function(favoriteId){
+    return favoriteId.toString() === id.toString();
+  });
 };
 
 /*-------------------generate a JWT----------------------*/
