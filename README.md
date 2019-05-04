@@ -1,1 +1,1 @@
-# Service BackEnd Based On Node.js
+# SecondHand CapStone Project with MEAN
