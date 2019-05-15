@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
     bio: String,
     image: String,
     favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Article' }],
+    following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     hash: String,
     salt: String
 }, {timestamps: true});
@@ -79,9 +80,29 @@ UserSchema.methods.toProfileJSONFor = function(user){
   return {
     username: this.username,
     bio: this.bio,
-    image: this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
-    following: false
+    image: this.image || 'https://missouri.edu/images/template/mu-logo-48-stroked.svg',
+    following: user ? user.isFollowing(this._id) : false
   };
+};
+
+// Follow
+UserSchema.methods.follow = function(id){
+  if(this.following.indexOf(id) === -1){
+    this.following.push(id);
+  }
+
+  return this.save();
+};
+
+UserSchema.methods.unfollow = function(id){
+  this.following.remove(id);
+  return this.save();
+};
+
+UserSchema.methods.isFollowing = function(id){
+  return this.following.some(function(followId){
+    return followId.toString() === id.toString();
+  });
 };
 
 //为了使用schema定义，我们需要转换为model

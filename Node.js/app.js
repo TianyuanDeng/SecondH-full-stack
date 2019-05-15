@@ -23,7 +23,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(require('method-override')());
 app.use(express.static(__dirname + '/public'));
-app.use(session({ secret: 'conduit', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false  }));
 
 if (!isProduction) {
   app.use(errorhandler());
@@ -39,6 +38,8 @@ if(isProduction){
 require('./models/User');
 require('./config/passport');
 require('./models/Article');
+require('./models/Comment');
+
 app.use(require('./routes'));
 
 /// catch 404 and forward to error handler
